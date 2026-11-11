@@ -9,7 +9,7 @@ A cinematic web quiz with **120 movie records (40 Hindi + 40 English + 40 animat
 Open `index.html` in Chrome / Safari or run a local dev server:
 
 ```bash
-cd CineQuest-Ultimate
+cd cinequest-team
 python3 -m http.server 5500
 # Then visit http://localhost:5500
 ```
@@ -57,7 +57,7 @@ Then play an entire 20-question game in the browser. Check at 375px mobile width
 ## Project structure
 
 ```text
-CineQuest-Ultimate/
+cinequest-team/
 ├── index.html              # Aman
 ├── css/style.css           # Deepak
 ├── js/app.js               # Aarav
