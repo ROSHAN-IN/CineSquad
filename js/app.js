@@ -48,6 +48,7 @@
   let questions = [], records = [], index = 0, score = 0, streak = 0;
   let answered = false, hintUsed = false, timerId = null, nextTimeout = null;
   let endsAt = 0, secondsLeft = 20;
+  let timerWarningPlayed = false;
   let soundOn = getPreference('cinequest:sound', true);
   let motionOn = getPreference('cinequest:motion', true);
   let audioContext = null;
@@ -74,6 +75,7 @@
         click: [[460, 0, .06]], correct: [[523, 0, .11], [659, .12, .11], [784, .24, .17]],
         wrong: [[240, 0, .17], [160, .16, .19]], hint: [[690, 0, .08], [830, .1, .11]],
         win: [[523, 0, .12], [659, .14, .12], [784, .3, .12], [1046, .45, .25]]
+        tick: [[880, 0, 0.08]],
       };
       for (const [freq, offset, duration] of (tones[type] || tones.click)) {
         const osc = audioContext.createOscillator();
@@ -121,10 +123,17 @@
     secondsLeft = Math.max(0, Math.ceil((endsAt - performance.now()) / 1000));
     $('timerValue').textContent = secondsLeft + 's';
     $('timerPanel').classList.toggle('danger', secondsLeft <= 5);
+    if (secondsLeft <= 5 &&
+    secondsLeft > 0 &&
+    !timerWarningPlayed) {
+  timerWarningPlayed = true;
+  sound('tick');
+}
     if (secondsLeft === 0) finishAnswer('timeout');
   }
   function startClock() {
     stopClock();
+    timerWarningPlayed = false;
     secondsLeft = DIFFICULTIES[selectedDifficulty].seconds;
     endsAt = performance.now() + secondsLeft * 1000;
     $('timerValue').textContent = secondsLeft + 's';
